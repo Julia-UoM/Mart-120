@@ -1,0 +1,8 @@
+Homework 1
+Mart 120
+Julia Hansson
+01/17/2026
+
+A Graphical User Interface (GUI) and a Command Line Interface (CLI) are two common methods used to interact with computer systems. GUIs prioritize ease of use, while CLIs emphasize speed and flexibility. A GUI allows users to interact through visual elements such as icons, windows, and menus, making it intuitive and accessible for the average user. Because actions are performed through clicking and visual navigation, GUIs reduce the need to memorize commands and are used in everyday computing.
+
+In contrast, a CLI requires users to enter text-based commands to communicate with the system. While it has a steeper learning curve, the CLI offers greater efficiency and control, particularly for programmers and system administrators. Complex or repetitive tasks can often be completed more quickly through scripting and command execution. CLI is for the advanced user, not the average consumer.
