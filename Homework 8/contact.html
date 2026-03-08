@@ -1,0 +1,51 @@
+<form onsubmit="return validateForm()">
+
+<label>Name:</label>
+<input id="name" type="text"><br><br>
+
+<label>Email:</label>
+<input id="email" type="text"><br><br>
+
+<label>Do you accept all terms?</label><br>
+<input type="radio" name="terms" id="yes"> Yes
+<input type="radio" name="terms" id="no"> No
+<br><br>
+
+<input type="submit" value="Submit">
+
+</form>
+
+<script>
+
+function validateForm(){
+
+let name = document.getElementById("name");
+let email = document.getElementById("email");
+let yes = document.getElementById("yes");
+let no = document.getElementById("no");
+
+name.classList.remove("error");
+email.classList.remove("error");
+
+if(name.value == ""){
+name.classList.add("error");
+name.focus();
+return false;
+}
+
+if(email.value == ""){
+email.classList.add("error");
+email.focus();
+return false;
+}
+
+if(!yes.checked && !no.checked){
+yes.focus();
+return false;
+}
+
+return true;
+
+}
+
+</script>
