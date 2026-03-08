@@ -12,6 +12,42 @@
         a { text-decoration: none; }
     </style>
 </head>
+
+    <script>
+
+function validateForm(){
+
+let name = document.getElementById("name");
+let email = document.getElementById("email");
+let yes = document.getElementById("yes");
+let no = document.getElementById("no");
+
+name.classList.remove("error");
+email.classList.remove("error");
+
+if(name.value == ""){
+name.classList.add("error");
+name.focus();
+return false;
+}
+
+if(email.value == ""){
+email.classList.add("error");
+email.focus();
+return false;
+}
+
+if(!yes.checked && !no.checked){
+yes.focus();
+return false;
+}
+
+return true;
+
+}
+
+</script>
+    
 <body>
 
 <h1 id="main-title">My Homepage</h1>
