@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Homework 7: Home</title>
+
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        h1 { margin-top: 20px; }
+        h2 { margin-top: 15px; }
+        ul { margin-bottom: 15px; }
+        a { text-decoration: none; }
+    </style>
+</head>
+
+    <script>
+
+function validateForm(){
+
+let name = document.getElementById("name");
+let email = document.getElementById("email");
+let yes = document.getElementById("yes");
+let no = document.getElementById("no");
+
+name.classList.remove("error");
+email.classList.remove("error");
+
+if(name.value == ""){
+name.classList.add("error");
+name.focus();
+return false;
+}
+
+if(email.value == ""){
+email.classList.add("error");
+email.focus();
+return false;
+}
+
+if(!yes.checked && !no.checked){
+yes.focus();
+return false;
+}
+
+return true;
+
+}
+
+</script>
+    
+<body>
+
+<h1 id="main-title">My Homepage</h1>
+
+<a href="index.html">Home</a> |
+<a href="story.html">Story</a> |
+<a href="contact.html">Contact</a>
+
+<p class="text-muted">
+    Welcome to my page. <span id="highlight">This is Homework 7.</span>
+</p>
+
+<div class="card" style="width: 300px;">  <!-- inline style -->
+<h2>My Favorite Hobbies</h2>
+<ul>
+    <li>Photography</li>
+    <li>Fashion</li>
+    <li>Travel</li>
+</ul>
+</div>
+
+<div class="card">
+<h2>My Favorite Restaurants</h2>
+<ul>
+    <li><a href="https://himalayankitchenmt.com">Himalayan Kitchen</a></li>
+    <li><a href="https://goodfoodstore.com">Good Food Store</a></li>
+</ul>
+</div>
+
+<div class="card">
+<h2>My Favorite Websites</h2>
+<ol>
+    <li><a href="https://www.clueperfumery.com">Clue Perfumery</a></li>
+    <li><a href="https://www.bhphotovideo.com">B&H Photo</a></li>
+</ol>
+</div>
+
+</body>
+</html>

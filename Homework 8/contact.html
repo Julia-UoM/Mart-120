@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Homework 8: Contact</title>
+
+<link rel="stylesheet" href="styles.css">
+
+<style>
+h1 { margin-top:20px; }
+label { display:block; margin-top:10px; }
+
+.error{
+border:2px solid red;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1 id="main-title">Contact Us</h1>
+
+<a href="index.html">Home</a> |
+<a href="story.html">Story</a> |
+<a href="contact.html">Contact</a>
+
+<p class="text-muted">
+Please fill out the form. <span id="highlight">All fields required.</span>
+</p>
+
+<div class="card" style="padding:10px;">
+
+<form onsubmit="return validateForm()">
+
+<label>Name:</label>
+<input id="name" type="text">
+
+<label>Email:</label>
+<input id="email" type="text">
+
+<label>Do you accept all terms?</label>
+<input type="radio" name="terms" id="yes"> Yes
+<input type="radio" name="terms" id="no"> No
+
+<br><br>
+
+<input type="submit" value="Submit">
+
+</form>
+
+</div>
+
+<script>
+
+function validateForm(){
+
+let name = document.getElementById("name");
+let email = document.getElementById("email");
+let yes = document.getElementById("yes");
+let no = document.getElementById("no");
+
+name.classList.remove("error");
+email.classList.remove("error");
+
+if(name.value == ""){
+name.classList.add("error");
+name.focus();
+return false;
+}
+
+if(email.value == ""){
+email.classList.add("error");
+email.focus();
+return false;
+}
+
+if(!yes.checked && !no.checked){
+yes.focus();
+return false;
+}
+
+return true;
+
+}
+
+</script>
+
+</body>
+</html>
