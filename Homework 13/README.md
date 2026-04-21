@@ -1,1 +1,2 @@
-
+<b> GEN AI Reflection<b> <p>
+For this assignment, I used generative AI as a troubleshooting tool while I was building the sketch. I already understood the general structure, but I got stuck on a few things like getting the obstacles to wrap around the screen correctly. I worked through this issue with AI by asking questions and then adjusting the code. It was helpful for catching some small mistakes and speeding up the debugging process. Overall, I used AI as a support tool to problem-solve and refine for this project.
