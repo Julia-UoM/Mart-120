@@ -26,11 +26,11 @@ function setup() {
   playerY = height / 2;
 
   memories = [
-    { x: 120, y: 120, size: 26, found: false, photo: photos[0], text: "fragment" },
-    { x: 650, y: 100, size: 26, found: false, photo: photos[1], text: "echo" },
-    { x: 230, y: 380, size: 26, found: false, photo: photos[2], text: "signal" },
-    { x: 580, y: 360, size: 26, found: false, photo: photos[3], text: "trace" },
-    { x: 400, y: 250, size: 26, found: false, photo: photos[4], text: "memory" }
+    { x: 120, y: 120, size: 26, found: false, photo: photos[0], text: "this looks familiar.." },
+    { x: 650, y: 100, size: 26, found: false, photo: photos[1], text: "wait.. where am I?" },
+    { x: 230, y: 380, size: 26, found: false, photo: photos[2], text: "I recognize this place.." },
+    { x: 580, y: 360, size: 26, found: false, photo: photos[3], text: "what was I doing here?" },
+    { x: 400, y: 250, size: 26, found: false, photo: photos[4], text: "am I still dreaming?" }
   ];
 }
 
@@ -57,6 +57,7 @@ function drawBackground() {
   background(r, g, b);
 
   noStroke();
+
   for (let i = 0; i < 40; i++) {
     let x = (i * 91 + frameCount * 0.2) % width;
     let y = (i * 57) % height;
@@ -67,6 +68,12 @@ function drawBackground() {
 }
 
 function drawIntro() {
+  drawMemories();
+  drawPlayer();
+
+  fill(10, 10, 20, 150);
+  rect(0, 0, width, height);
+
   fill(200, 180, 255);
   textAlign(CENTER, CENTER);
 
@@ -113,7 +120,7 @@ function drawPlayer() {
 function drawMemories() {
   for (let m of memories) {
     if (!m.found) {
-      let pulse = sin(frameCount * 0.05) * 4;
+      let pulse = sin(frameCount * 0.05 + m.x) * 4;
 
       fill(255, 255, 255, 60);
       ellipse(m.x, m.y, m.size + 18 + pulse);
