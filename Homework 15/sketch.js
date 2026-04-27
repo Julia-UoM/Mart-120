@@ -1,7 +1,7 @@
 let playerX;
 let playerY;
-let playerSize = 24;
-let speed = 3;
+let playerSize = 20;
+let speed = 2.5;
 
 let photos = [];
 let memories = [];
@@ -26,139 +26,72 @@ function setup() {
   playerY = height / 2;
 
   memories = [
-    {
-      x: 130,
-      y: 120,
-      size: 28,
-      found: false,
-      photo: photos[0],
-      text: "A place I almost remember."
-    },
-    {
-      x: 650,
-      y: 110,
-      size: 28,
-      found: false,
-      photo: photos[1],
-      text: "Light from somewhere outside the dream."
-    },
-    {
-      x: 230,
-      y: 380,
-      size: 28,
-      found: false,
-      photo: photos[2],
-      text: "Something familiar, but quiet."
-    },
-    {
-      x: 590,
-      y: 360,
-      size: 28,
-      found: false,
-      photo: photos[3],
-      text: "A memory waiting to be seen."
-    },
-    {
-      x: 400,
-      y: 245,
-      size: 28,
-      found: false,
-      photo: photos[4],
-      text: "The last image before waking."
-    }
+    { x: 120, y: 120, size: 26, found: false, photo: photos[0], text: "fragment" },
+    { x: 650, y: 100, size: 26, found: false, photo: photos[1], text: "echo" },
+    { x: 230, y: 380, size: 26, found: false, photo: photos[2], text: "signal" },
+    { x: 580, y: 360, size: 26, found: false, photo: photos[3], text: "trace" },
+    { x: 400, y: 250, size: 26, found: false, photo: photos[4], text: "memory" }
   ];
 }
 
 function draw() {
-  drawDreamBackground();
+  drawBackground();
 
   if (gameState === "intro") {
-    drawIntroScreen();
+    drawIntro();
   } else if (gameState === "play") {
     playGame();
   } else if (gameState === "memory") {
     playGame();
-    drawMemoryScreen();
+    drawMemory();
   } else if (gameState === "end") {
-    drawEndScreen();
+    drawEnd();
   }
 }
 
-function drawDreamBackground() {
-  let red = map(sin(frameCount * 0.01), -1, 1, 230, 248);
-  let green = map(sin(frameCount * 0.008), -1, 1, 220, 238);
-  let blue = map(sin(frameCount * 0.006), -1, 1, 235, 250);
+function drawBackground() {
+  let r = map(sin(frameCount * 0.01), -1, 1, 15, 30);
+  let g = map(sin(frameCount * 0.008), -1, 1, 15, 25);
+  let b = map(sin(frameCount * 0.006), -1, 1, 30, 50);
 
-  background(red, green, blue);
+  background(r, g, b);
 
   noStroke();
+  for (let i = 0; i < 40; i++) {
+    let x = (i * 91 + frameCount * 0.2) % width;
+    let y = (i * 57) % height;
 
-  for (let i = 0; i < 25; i++) {
-    let x = (i * 83 + frameCount * 0.3) % width;
-    let y = (i * 47) % height;
-
-    fill(255, 255, 255, 35);
-    ellipse(x, y, 5, 5);
+    fill(255, 255, 255, 20);
+    ellipse(x, y, 3, 3);
   }
 }
 
-function drawIntroScreen() {
-  fill(60, 48, 65);
+function drawIntro() {
+  fill(200, 180, 255);
   textAlign(CENTER, CENTER);
 
-  textSize(34);
-  text("Dream Archive", width / 2, height / 2 - 65);
+  textSize(28);
+  text("Dream Archive", width / 2, height / 2 - 20);
 
-  textSize(17);
-  text("You wake up somewhere quiet.", width / 2, height / 2 - 20);
-  text("Collect the photographs to recover the archive.", width / 2, height / 2 + 10);
-
-  textSize(15);
-  text("Press any key to begin", width / 2, height / 2 + 70);
+  textSize(14);
+  text("press any key", width / 2, height / 2 + 30);
 }
 
 function playGame() {
-  drawRoom();
   movePlayer();
   drawMemories();
-  checkForMemories();
+  checkMemories();
   drawPlayer();
-  drawCounter();
-}
-
-function drawRoom() {
-  noStroke();
-
-  fill(255, 255, 255, 45);
-  rect(70, 70, 660, 360, 30);
-
-  fill(210, 190, 215, 70);
-  rect(120, 220, 560, 40, 20);
-
-  fill(180, 160, 190, 45);
-  rect(380, 90, 40, 320, 20);
+  drawUI();
 }
 
 function movePlayer() {
-  if (gameState !== "play") {
-    return;
-  }
+  if (gameState !== "play") return;
 
-  if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) {
-    playerX -= speed;
-  }
-
-  if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)) {
-    playerX += speed;
-  }
-
-  if (keyIsDown(UP_ARROW) || keyIsDown(87)) {
-    playerY -= speed;
-  }
-
-  if (keyIsDown(DOWN_ARROW) || keyIsDown(83)) {
-    playerY += speed;
-  }
+  if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) playerX -= speed;
+  if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)) playerX += speed;
+  if (keyIsDown(UP_ARROW) || keyIsDown(87)) playerY -= speed;
+  if (keyIsDown(DOWN_ARROW) || keyIsDown(83)) playerY += speed;
 
   playerX = constrain(playerX, playerSize / 2, width - playerSize / 2);
   playerY = constrain(playerY, playerSize / 2, height - playerSize / 2);
@@ -167,90 +100,79 @@ function movePlayer() {
 function drawPlayer() {
   noStroke();
 
-  fill(50, 40, 60, 70);
-  ellipse(playerX + 4, playerY + 5, playerSize, playerSize * 0.7);
+  fill(180, 140, 255, 40);
+  ellipse(playerX, playerY, playerSize + 20);
 
-  fill(65, 50, 80);
-  ellipse(playerX, playerY, playerSize, playerSize);
+  fill(180, 140, 255, 80);
+  ellipse(playerX, playerY, playerSize + 10);
+
+  fill(220, 200, 255);
+  ellipse(playerX, playerY, playerSize);
 }
 
 function drawMemories() {
-  for (let i = 0; i < memories.length; i++) {
-    let memory = memories[i];
+  for (let m of memories) {
+    if (!m.found) {
+      let pulse = sin(frameCount * 0.05) * 4;
 
-    if (memory.found === false) {
-      let pulse = sin(frameCount * 0.06 + i) * 5;
+      fill(255, 255, 255, 60);
+      ellipse(m.x, m.y, m.size + 18 + pulse);
 
-      fill(255, 255, 255, 150);
-      ellipse(memory.x, memory.y, memory.size + 20 + pulse);
-
-      fill(170, 130, 180);
-      ellipse(memory.x, memory.y, memory.size);
-
-      fill(255, 255, 255, 200);
-      rect(memory.x - 6, memory.y - 8, 12, 16, 2);
+      fill(150, 110, 200);
+      ellipse(m.x, m.y, m.size);
     }
   }
 }
 
-function checkForMemories() {
-  if (gameState !== "play") {
-    return;
-  }
+function checkMemories() {
+  if (gameState !== "play") return;
 
-  for (let i = 0; i < memories.length; i++) {
-    let memory = memories[i];
-    let distance = dist(playerX, playerY, memory.x, memory.y);
+  for (let m of memories) {
+    let d = dist(playerX, playerY, m.x, m.y);
 
-    if (memory.found === false && distance < playerSize / 2 + memory.size / 2) {
-      memory.found = true;
+    if (!m.found && d < playerSize / 2 + m.size / 2) {
+      m.found = true;
       collected++;
-      currentMemory = memory;
+      currentMemory = m;
       gameState = "memory";
     }
   }
 }
 
-function drawMemoryScreen() {
-  fill(35, 25, 40, 210);
+function drawMemory() {
+  fill(10, 10, 20, 220);
   rect(0, 0, width, height);
 
-  fill(255, 248, 252);
-  rect(width / 2 - 220, height / 2 - 170, 440, 340, 20);
-
   imageMode(CENTER);
-  image(currentMemory.photo, width / 2, height / 2 - 45, 300, 180);
+  image(currentMemory.photo, width / 2, height / 2 - 40, 320, 200);
 
-  fill(60, 48, 65);
+  fill(200, 180, 255);
   textAlign(CENTER, CENTER);
 
-  textSize(17);
-  text(currentMemory.text, width / 2 - 170, height / 2 + 80, 340, 60);
+  textSize(18);
+  text(currentMemory.text, width / 2, height / 2 + 80);
 
-  textSize(13);
-  text("Press space to continue", width / 2, height / 2 + 135);
+  textSize(12);
+  fill(180, 160, 200);
+  text("press space", width / 2, height / 2 + 120);
 }
 
-function drawCounter() {
-  fill(60, 48, 65);
-  textAlign(LEFT, TOP);
-  textSize(15);
-  text("Photos recovered: " + collected + " / " + memories.length, 20, 20);
+function drawUI() {
+  fill(160, 140, 200);
+  textAlign(CENTER, TOP);
+  textSize(14);
+  text("fragments: " + collected + " / " + memories.length, width / 2, 15);
 }
 
-function drawEndScreen() {
-  fill(60, 48, 65);
+function drawEnd() {
+  fill(200, 180, 255);
   textAlign(CENTER, CENTER);
 
-  textSize(32);
-  text("Archive Complete", width / 2, height / 2 - 60);
-
-  textSize(17);
-  text("All of the photographs have returned.", width / 2, height / 2 - 15);
-  text("The dream is quiet again.", width / 2, height / 2 + 15);
+  textSize(26);
+  text("archive complete", width / 2, height / 2);
 
   textSize(14);
-  text("Refresh the page to play again.", width / 2, height / 2 + 80);
+  text("refresh to return", width / 2, height / 2 + 40);
 }
 
 function keyPressed() {
