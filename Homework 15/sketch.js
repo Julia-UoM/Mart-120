@@ -8,9 +8,10 @@ let memories = [];
 
 let collected = 0;
 let gameState = "intro";
+let currentMemory = null;
 
-let message = "";
-let messageTimer = 0;
+// prevents instant trigger at start
+let canCollect = false;
 
 function preload() {
   photos[0] = loadImage("images/photo1.jpg");
@@ -24,48 +25,17 @@ function setup() {
   let canvas = createCanvas(800, 500);
   canvas.parent("sketch-holder");
 
-  playerX = width / 2;
-  playerY = height / 2 + 60;
+  // start position (safe, away from orbs)
+  playerX = 400;
+  playerY = 420;
 
-  createMemories();
-}
-
-function createMemories() {
-  memories = [];
-
-  let texts = [
-    "this looks familiar..",
-    "wait.. where am I?",
-    "I recognize this place..",
-    "what was I doing here?",
-    "am I still dreaming?"
+  memories = [
+    { x: 120, y: 120, size: 58, found: false, photo: photos[0], text: "this looks familiar.." },
+    { x: 650, y: 100, size: 58, found: false, photo: photos[1], text: "wait.. where am I?" },
+    { x: 220, y: 300, size: 58, found: false, photo: photos[2], text: "I recognize this place.." },
+    { x: 610, y: 310, size: 58, found: false, photo: photos[3], text: "what was I doing here?" },
+    { x: 400, y: 150, size: 58, found: false, photo: photos[4], text: "am I still dreaming?" }
   ];
-
-  for (let i = 0; i < 5; i++) {
-    let valid = false;
-    let x, y;
-
-    while (!valid) {
-      x = random(60, width - 60);
-      y = random(60, height - 60);
-
-      let d = dist(x, y, width / 2, height / 2 + 60);
-
-      // must be far enough from player start
-      if (d > 140) {
-        valid = true;
-      }
-    }
-
-    memories.push({
-      x: x,
-      y: y,
-      size: 58,
-      found: false,
-      photo: photos[i],
-      text: texts[i]
-    });
-  }
 }
 
 function draw() {
@@ -77,6 +47,9 @@ function draw() {
     drawIntro();
   } else if (gameState === "play") {
     playGame();
+  } else if (gameState === "memory") {
+    playGame();
+    drawMemory();
   } else if (gameState === "end") {
     drawEnd();
   }
@@ -121,14 +94,36 @@ function playGame() {
   checkMemories();
   drawPlayer();
   drawUI();
-  drawMessage();
 }
 
 function movePlayer() {
-  if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) playerX -= speed;
-  if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)) playerX += speed;
-  if (keyIsDown(UP_ARROW) || keyIsDown(87)) playerY -= speed;
-  if (keyIsDown(DOWN_ARROW) || keyIsDown(83)) playerY += speed;
+  if (gameState !== "play") return;
+
+  let moved = false;
+
+  if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) {
+    playerX -= speed;
+    moved = true;
+  }
+
+  if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)) {
+    playerX += speed;
+    moved = true;
+  }
+
+  if (keyIsDown(UP_ARROW) || keyIsDown(87)) {
+    playerY -= speed;
+    moved = true;
+  }
+
+  if (keyIsDown(DOWN_ARROW) || keyIsDown(83)) {
+    playerY += speed;
+    moved = true;
+  }
+
+  if (moved) {
+    canCollect = true;
+  }
 
   playerX = constrain(playerX, playerSize / 2, width - playerSize / 2);
   playerY = constrain(playerY, playerSize / 2, height - playerSize / 2);
@@ -175,20 +170,36 @@ function drawMemories() {
 }
 
 function checkMemories() {
+  if (!canCollect) return;
+
   for (let m of memories) {
     let d = dist(playerX, playerY, m.x, m.y);
 
     if (!m.found && d < playerSize / 2 + m.size / 2) {
       m.found = true;
       collected++;
-      message = m.text;
-      messageTimer = 140;
+      currentMemory = m;
+      gameState = "memory";
     }
   }
+}
 
-  if (collected >= memories.length) {
-    gameState = "end";
-  }
+function drawMemory() {
+  fill(10, 10, 20, 220);
+  rect(0, 0, width, height);
+
+  imageMode(CENTER);
+  image(currentMemory.photo, width / 2, height / 2 - 40, 320, 200);
+
+  fill(200, 180, 255);
+  textAlign(CENTER, CENTER);
+
+  textSize(18);
+  text(currentMemory.text, width / 2, height / 2 + 80);
+
+  textSize(12);
+  fill(180, 160, 200);
+  text("press space", width / 2, height / 2 + 120);
 }
 
 function drawUI() {
@@ -198,19 +209,7 @@ function drawUI() {
   text("fragments: " + collected + " / " + memories.length, width / 2, 15);
 }
 
-function drawMessage() {
-  if (messageTimer > 0) {
-    fill(205, 185, 255);
-    textAlign(CENTER, CENTER);
-    textSize(22);
-    text(message, width / 2, height - 55);
-    messageTimer--;
-  }
-}
-
 function drawEnd() {
-  drawPlayer();
-
   fill(205, 185, 255);
   textAlign(CENTER, CENTER);
 
@@ -224,5 +223,11 @@ function drawEnd() {
 function keyPressed() {
   if (gameState === "intro") {
     gameState = "play";
+  } else if (gameState === "memory" && key === " ") {
+    if (collected >= memories.length) {
+      gameState = "end";
+    } else {
+      gameState = "play";
+    }
   }
 }
