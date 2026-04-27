@@ -1,8 +1,8 @@
 body {
   margin: 0;
   padding: 20px;
-  background: #f6eef5;
-  color: #3d3340;
+  background: #0f0f18;
+  color: #cfc6ff;
   font-family: Georgia, serif;
   text-align: center;
 }
@@ -15,10 +15,11 @@ h1 {
 
 p {
   margin-top: 0;
-  font-size: 15px;
+  font-size: 14px;
+  opacity: 0.7;
 }
 
 canvas {
   border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(60, 40, 70, 0.2);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
 }
