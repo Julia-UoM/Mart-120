@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Between Stations</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+</head>
+<body>
+  <h1>Between Stations</h1>
+  <p>An interactive p5.js art piece about drifting between awareness and sleep.</p>
+
+  <main id="canvas-container"></main>
+
+  <p class="instructions">Press and hold the mouse to enter the dream state.</p>
+
+  <script src="sketch.js"></script>
+</body>
+</html>
