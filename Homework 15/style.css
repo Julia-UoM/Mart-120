@@ -3,7 +3,8 @@ body {
   padding: 20px;
   background: #0f0f18;
   color: #cfc6ff;
-  font-family: Georgia, serif;
+  font-family: "Times New Roman", Georgia, serif;
+letter-spacing: 1px;
   text-align: center;
 }
 
