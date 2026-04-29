@@ -10,7 +10,7 @@ let collected = 0;
 let gameState = "intro";
 let currentMemory = null;
 
-// prevents instant trigger at start
+// 
 let canCollect = false;
 
 function preload() {
@@ -25,7 +25,7 @@ function setup() {
   let canvas = createCanvas(800, 500);
   canvas.parent("sketch-holder");
 
-  // start position (safe, away from orbs)
+  //
   playerX = 400;
   playerY = 420;
 
